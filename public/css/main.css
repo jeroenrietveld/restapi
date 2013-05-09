@@ -13,7 +13,7 @@
 }
 
 .header:after{
-	background: url("../img/squairy.png") repeat scroll center center transparent;
+	background: url("/public/img/squairy.png") repeat scroll center center transparent;
 	bottom: 0;
 	display: block;
 	left: 0;

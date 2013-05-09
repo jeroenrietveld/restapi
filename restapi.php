@@ -1,7 +1,7 @@
 <?php
 include_once "bootstrap.php";
-include_once "productController.php";
-include_once "APIController.php";
+include_once "src/controllers/productController.php";
+include_once "src/controllers/APIController.php";
 
 $method 	= $_SERVER['REQUEST_METHOD'];
 $action 	= strtoupper($method) . 'Action';
