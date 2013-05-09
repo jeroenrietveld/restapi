@@ -20,7 +20,12 @@ class ProductsController
 
 	public function GETAction($params)
 	{
-		$products = $this->em->getRepository('Product')->findAll();
+		if($_GET['id']) {
+			$products = $this->em->getRepository('Product')->findById($_GET['id']);
+		} else {
+			$products = $this->em->getRepository('Product')->findAll();
+		}
+
 		$data = array();
 
 		foreach($products as $product) {
