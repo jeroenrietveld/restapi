@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
+
+	RewriteCond %(REQUEST_FILENAME) !-f
+	RewriteCond %(REQUEST_FILENAME) !-d
+
+	#products
+	RewriteRule ^api/v1/products/(json|xml)$			restapi.php?format=$1
+	RewriteRule ^api/v1/products/([0-9]+)/(json|xml)$	restapi.php?id=$1&format=$2
+</IfModule>
