@@ -1,12 +1,10 @@
 <?php
 
-use src\entities\Product;
-
 class ProductsController
 {
 	private $em;
 
-	public function ProductsController($em)
+	public function __construct($em)
 	{
 		$this->em = $em;
 	}
@@ -24,6 +22,7 @@ class ProductsController
 	{
 		if($_GET['id']) {
 			$products = $this->em->getRepository('Product')->findById($_GET['id']);
+			var_dump($products[0]->getCategory()->getName());die;
 		} else {
 			$products = $this->em->getRepository('Product')->findAll();
 		}

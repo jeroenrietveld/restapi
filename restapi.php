@@ -5,7 +5,7 @@ ini_set('display_errors', '1');
 
 include_once "bootstrap.php";
 include_once "src/controllers/productController.php";
-include_once "src/controllers/productController.php";
+include_once "src/controllers/categoryController.php";
 include_once "src/controllers/APIController.php";
 
 $method 		= $_SERVER['REQUEST_METHOD'];

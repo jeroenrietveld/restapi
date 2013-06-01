@@ -1,10 +1,10 @@
 <?php
 
-class CategoryController
+class CategoriesController
 {
 	private $em;
 
-	public function CategoryController($em)
+	public function __construct($em)
 	{
 		$this->em = $em;
 	}
@@ -21,15 +21,17 @@ class CategoryController
 	public function GETAction($params)
 	{
 		if($_GET['id']) {
-			$products = $this->em->getRepository('Product')->findById($_GET['id']);
+			$categories = $this->em->getRepository('Category')->findById($_GET['id']);
+			$test = $categories[0]->getProducts();
+			var_dump($test);
 		} else {
-			$products = $this->em->getRepository('Product')->findAll();
+			$categories = $this->em->getRepository('Category')->findAll();
 		}
 
 		$data = array();
 
-		foreach($products as $product) {
-			$data['products'][] = array('product' => array('id' => $product->getId(), 'name' => $product->getName()));
+		foreach($categories as $category) {
+			$data['categories'][] = array('category' => array('id' => $category->getId(), 'name' => $category->getName()));
 		}
 
 		return $data;
