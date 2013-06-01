@@ -3,6 +3,9 @@ include_once "bootstrap.php";
 include_once "src/controllers/productController.php";
 include_once "src/controllers/APIController.php";
 
+error_reporting(E_ALL ^ E_NOTICE);
+ini_set('display_errors', '1');
+
 $method 	= $_SERVER['REQUEST_METHOD'];
 $action 	= strtoupper($method) . 'Action';
 $params 	= explode('/', $_SERVER['REQUEST_URI']);

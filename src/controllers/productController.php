@@ -21,7 +21,7 @@ class ProductsController
 	public function GETAction($params)
 	{
 		if($_GET['id']) {
-			$products = $this->em->getRepository('Product')->findById($_GET['id']);
+			$product = $this->em->find('Product', $_GET['id']);
 		} else {
 			$products = $this->em->getRepository('Product')->findAll();
 		}
