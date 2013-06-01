@@ -1,22 +1,20 @@
 <?php
 
-use src\entities\Product;
-
-class ProductsController
+class CategoryController
 {
 	private $em;
 
-	public function ProductsController($em)
+	public function CategoryController($em)
 	{
 		$this->em = $em;
 	}
 
 	public function POSTAction($params)
 	{
-		$product = new Product();
-		$product->setName($name);
+		$category = new Category();
+		$category->setName($name);
 
-		$this->em->persist($product);
+		$this->em->persist($category);
 		$this->em->flush();
 	}
 
