@@ -16,7 +16,7 @@ class Category
 	protected $name;
 
 	/**
-	 * @OneToMany(targetEntity="Product", mappedBy="categories")
+	 * @OneToMany(targetEntity="Product", mappedBy="category")
 	 */
 	protected $products;
 
@@ -91,7 +91,6 @@ class Category
      */
     public function getProducts()
     {
-        var_dump($this->products);die;
         return $this->products;
     }
 }

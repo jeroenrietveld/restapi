@@ -8,6 +8,8 @@
 	#products
 	RewriteRule ^api/v1/products/(json|xml)$					restapi.php?format=$1
 	RewriteRule ^api/v1/products/([0-9]+)/(json|xml)$	restapi.php?id=$1&format=$2
+	RewriteRule ^api/v1/products/([0-9]+)							restapi.php?id=$1
+	RewriteRule ^api/v1/products 											restapi.php
 
 	#categories
 	RewriteRule ^api/v1/categories/(json|xml)$					restapi.php?format=$1

@@ -1,7 +1,7 @@
 <?php
 
 error_reporting(E_ALL);
-ini_set('display_errors', '1');
+ini_set('display_errors', 1);
 
 include_once "bootstrap.php";
 include_once "src/controllers/productController.php";
@@ -13,9 +13,6 @@ $action 		= strtoupper($method) . 'Action';
 $params 		= explode('/', $_SERVER['REQUEST_URI']);
 $name				= ucfirst($params[3] . 'Controller');
 $controller = new $name($em);
-$data 			= $controller->$action($params);
-
-$API = new APIController();
 
 switch($method) {
 	case 'HEAD':
@@ -23,8 +20,31 @@ switch($method) {
 	case 'OPTIONS':
 		break;
 	case 'GET':
-		$API->render($data, $_GET['format']);
+		if(!isset($_GET['format'])) {
+			APIController::sendResponse(404);
+		}
+		$data	= $controller->$action();
+
+		APIController::render($data, $_GET['format']);
 		break;
 	case 'POST':
+		$data	= $controller->$action();
+		if($data) {
+			APIController::sendResponse(201);
+		}
+		break;
+	case 'PUT':
+		parse_str(file_get_contents("php://input"), $put_vars);
+		$data	= $controller->$action($put_vars);
+
+		if($data) {
+			APIController::sendResponse(201);
+		}
+		break;
+	case 'DELETE':
+		
+		break;
+	default:
+		APIController::sendResponse(404);
 		break;
 }

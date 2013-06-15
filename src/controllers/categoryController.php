@@ -1,5 +1,7 @@
 <?php
 
+include_once "src/controllers/APIController.php";
+
 class CategoriesController
 {
 	private $em;
@@ -18,12 +20,15 @@ class CategoriesController
 		$this->em->flush();
 	}
 
+
 	public function GETAction($params)
 	{
-		if($_GET['id']) {
+		if(isset($_GET['id'])) {
 			$categories = $this->em->getRepository('Category')->findById($_GET['id']);
-			$test = $categories[0]->getProducts();
-			var_dump($test);
+
+			if(!$categories){
+				APIController::sendResponse(404);
+			}
 		} else {
 			$categories = $this->em->getRepository('Category')->findAll();
 		}
@@ -31,7 +36,12 @@ class CategoriesController
 		$data = array();
 
 		foreach($categories as $category) {
-			$data['categories'][] = array('category' => array('id' => $category->getId(), 'name' => $category->getName()));
+			$products = array();
+			foreach($category->getProducts() as $product) {
+				$products[] = array('product' => array('id' => $product->getId(), 'name' => $product->getName()));
+			}
+
+			$data['categories'][] = array('category' => array('id' => $category->getId(), 'name' => $category->getName(), 'products' => $products));
 		}
 
 		return $data;
