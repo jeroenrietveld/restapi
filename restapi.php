@@ -7,7 +7,7 @@ include_once "bootstrap.php";
 include_once "src/controllers/productController.php";
 include_once "src/controllers/categoryController.php";
 include_once "src/controllers/APIController.php";
-
+		
 $method 		= $_SERVER['REQUEST_METHOD'];
 $action 		= strtoupper($method) . 'Action';
 $params 		= explode('/', $_SERVER['REQUEST_URI']);
@@ -28,21 +28,21 @@ switch($method) {
 		APIController::render($data, $_GET['format']);
 		break;
 	case 'POST':
-		$data	= $controller->$action();
-		if($data) {
+		if($controller->$action()) {
 			APIController::sendResponse(201);
 		}
 		break;
 	case 'PUT':
 		parse_str(file_get_contents("php://input"), $put_vars);
-		$data	= $controller->$action($put_vars);
 
-		if($data) {
+		if($controller->$action($put_vars)) {
 			APIController::sendResponse(201);
 		}
 		break;
 	case 'DELETE':
-		
+		if($controller->$action()) {
+			APIController::sendResponse(200, 'Entity Deleted');
+		}
 		break;
 	default:
 		APIController::sendResponse(404);

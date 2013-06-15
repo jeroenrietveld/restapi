@@ -51,6 +51,24 @@ class ProductsController
 		return true;
 	}
 
+	public function DELETEAction()
+	{
+		if(isset($_GET['id'])) {
+
+			$product = $this->getProduct($_GET['id']);
+			if(!$product) {
+				APIController::sendResponse(204, 'Invalid product');
+			}
+
+			$this->em->remove($product);
+			$this->em->flush();
+
+			return true;
+		}
+
+		APIController::sendResponse(400, 'Id must be specified');
+	}
+
 	public function GETAction()
 	{
 		if(isset($_GET['id'])) {
