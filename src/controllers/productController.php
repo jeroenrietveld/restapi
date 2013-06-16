@@ -32,11 +32,11 @@ class ProductsController
 
 	public function PUTAction($put_vars)
 	{
-		if(!isset($put_vars['id']) || !isset($put_vars['name']) || !isset($put_vars['category'])) {
+		if(!isset($_GET['id']) || !isset($put_vars['name']) || !isset($put_vars['category'])) {
 			APIController::sendResponse(404);
 		}
 
-		$product = $this->getProduct($put_vars['id']);
+		$product = $this->getProduct($_GET['id']);
 		$category = $this->getCategory($put_vars['category']);
 		if(!$product) {
 			APIController::sendResponse(204, 'Invalid product');

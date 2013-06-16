@@ -20,17 +20,20 @@ class CategoriesController
 
 			$this->em->persist($category);
 			$this->em->flush();
+
+			return true;
 		}
 		APIController::sendResponse(404);
 	}
 
 	public function PUTAction($put_vars)
 	{
-		if(!isset($put_vars['id']) || !isset($put_vars['name'])) {
+		if(!isset($_GET['id']) || !isset($put_vars['name'])) {
 			APIController::sendResponse(404);
 		}
 
-		$category = $this->em->find('Category', $put_vars['id']);
+		$category = $this->em->find('Category', $_GET['id']);
+		
 		if(!$category) {
 			APIController::sendResponse(204, 'Invalid category');
 		}
