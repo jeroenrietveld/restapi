@@ -1,19 +1,18 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 include_once "bootstrap.php";
 include_once "src/controllers/productController.php";
+include_once "src/controllers/categoryController.php";
 include_once "src/controllers/APIController.php";
-
-error_reporting(E_ALL ^ E_NOTICE);
-ini_set('display_errors', '1');
-
-$method 	= $_SERVER['REQUEST_METHOD'];
-$action 	= strtoupper($method) . 'Action';
-$params 	= explode('/', $_SERVER['REQUEST_URI']);
-$name		= ucfirst($params[3] . 'Controller');
+		
+$method 		= $_SERVER['REQUEST_METHOD'];
+$action 		= strtoupper($method) . 'Action';
+$params 		= explode('/', $_SERVER['REQUEST_URI']);
+$name				= ucfirst($params[3] . 'Controller');
 $controller = new $name($em);
-$data 		= $controller->$action($params);
-
-$API = new APIController();
 
 switch($method) {
 	case 'HEAD':
@@ -21,6 +20,31 @@ switch($method) {
 	case 'OPTIONS':
 		break;
 	case 'GET':
-		$API->render($data, $_GET['format']);
+		if(!isset($_GET['format'])) {
+			APIController::sendResponse(404);
+		}
+		$data	= $controller->$action();
+
+		APIController::render($data, $_GET['format']);
+		break;
+	case 'POST':
+		if($controller->$action()) {
+			APIController::sendResponse(201);
+		}
+		break;
+	case 'PUT':
+		parse_str(file_get_contents("php://input"), $put_vars);
+
+		if($controller->$action($put_vars)) {
+			APIController::sendResponse(201);
+		}
+		break;
+	case 'DELETE':
+		if($controller->$action()) {
+			APIController::sendResponse(200, 'Entity Deleted');
+		}
+		break;
+	default:
+		APIController::sendResponse(404);
 		break;
 }

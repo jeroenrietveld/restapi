@@ -5,35 +5,54 @@
  */
 class Product
 {
-	/**
-	 * @Id @Column(type="integer") @GeneratedValue
-	 */
-	protected $id;
+    /**
+     * @Id @Column(type="integer") @GeneratedValue
+     */
+    protected $id;
 
-	/**
-	 * @Column(type="string")
-	 */
-	protected $name;
+    /**
+     * @Column(type="string")
+     */
+    protected $name;
 
-	/**
-   * @ManyToOne(targetEntity="Category", inversedBy="products")
-   */
-  protected $category;
+    /**
+     * @ManyToOne(targetEntity="Category", inversedBy="products")
+     * @JoinColumn(name="category_id", referencedColumnName="id")
+     */
+    protected $category;
 
-	public function getId()
-	{
-		return $this->id;
-	}
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-	public function getName()
-	{
-		return $this->name;
-	}
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Product
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    
+        return $this;
+    }
 
-	public function setName($name)
-	{
-		$this->name = $name;
-	}
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
     /**
      * Set category

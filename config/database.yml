@@ -1,4 +1,4 @@
 driver   : pdo_mysql
-user	 : root
+user	   : root
 password : root
 dbname   : restapi

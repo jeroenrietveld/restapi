@@ -1,25 +1,25 @@
 <?php
 
 /**
- * @Entity @Table(name="categories")
+ * @Entity @Table(name="Categories")
  */
 class Category
 {
+    /**
+     * @Id @Column(type="integer") @GeneratedValue
+     */
+    protected $id;
 
-	/**
-	 * @Id @Column(type="integer") @GeneratedValue
-	 */
-	protected $id;
+    /**
+     * @Column(type="string")
+     */
+    protected $name;
 
-	/**
-	 * @Column(type="string")
-	 */
-	protected $name;
+    /**
+     * @OneToMany(targetEntity="Product", mappedBy="category")
+     */
+    protected $products;
 
-	/**
-   * @OneToMany(targetEntity="Product", mappedBy="category")
-   **/
-  protected $products = null;
     /**
      * Constructor
      */
