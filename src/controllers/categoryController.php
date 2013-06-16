@@ -30,7 +30,7 @@ class CategoriesController
 			APIController::sendResponse(404);
 		}
 
-		$category = return $this->em->find('Category', $put_vars['id']);
+		$category = $this->em->find('Category', $put_vars['id']);
 		if(!$category) {
 			APIController::sendResponse(204, 'Invalid category');
 		}
@@ -47,7 +47,7 @@ class CategoriesController
 	{
 		if(isset($_GET['id'])) {
 
-			$category = return $this->em->find('Category', $_GET['id']);
+			$category = $this->em->find('Category', $_GET['id']);
 			if(!$category) {
 				APIController::sendResponse(204, 'Invalid category');
 			}
