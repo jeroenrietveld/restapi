@@ -11,17 +11,57 @@ class CategoriesController
 		$this->em = $em;
 	}
 
-	public function POSTAction($params)
+	public function POSTAction()
 	{
-		$category = new Category();
-		$category->setName($name);
+		if(isset($_POST['name'])) {
+			$category = new Category();
+			
+			$category->setName($_POST['name']);
+
+			$this->em->persist($category);
+			$this->em->flush();
+		}
+		APIController::sendResponse(404);
+	}
+
+	public function PUTAction($put_vars)
+	{
+		if(!isset($put_vars['id']) || !isset($put_vars['name'])) {
+			APIController::sendResponse(404);
+		}
+
+		$category = return $this->em->find('Category', $put_vars['id']);
+		if(!$category) {
+			APIController::sendResponse(204, 'Invalid category');
+		}
+
+		$category->setName($put_vars['name']);
 
 		$this->em->persist($category);
 		$this->em->flush();
+
+		return true;
 	}
 
+	public function DELETEAction()
+	{
+		if(isset($_GET['id'])) {
 
-	public function GETAction($params)
+			$category = return $this->em->find('Category', $_GET['id']);
+			if(!$category) {
+				APIController::sendResponse(204, 'Invalid category');
+			}
+
+			$this->em->remove($category);
+			$this->em->flush();
+
+			return true;
+		}
+
+		APIController::sendResponse(400, 'Id must be specified');
+	}
+
+	public function GETAction()
 	{
 		if(isset($_GET['id'])) {
 			$categories = $this->em->getRepository('Category')->findById($_GET['id']);
